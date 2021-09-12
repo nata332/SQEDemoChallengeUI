@@ -93,8 +93,26 @@ public class PizzaOrderPage extends BasePage {
     }
 
     public PizzaOrderPage specifyContactInformation(String name, String email, String phone) {
+        specifyName(name);
+        specifyEmail(email);
+        specifyPhone(phone);
+        return this;
+    }
+
+    public PizzaOrderPage specifyName(String name) {
+        nameInputField.clear();
         nameInputField.sendKeys(name);
+        return this;
+    }
+
+    public PizzaOrderPage specifyEmail(String email) {
+        emailInputField.clear();
         emailInputField.sendKeys(email);
+        return this;
+    }
+
+    public PizzaOrderPage specifyPhone(String phone) {
+        phoneInputField.clear();
         phoneInputField.sendKeys(phone);
         return this;
     }
