@@ -9,10 +9,10 @@ public enum PizzaToppings {
     ITALIANHAM("Italian Ham"),
     PEPPERONI("Classic Pepperoni"),
     SALAMI("Salami"),
-    PROVOLNE("Provolone cheese"),
+    PROVOLONE("Provolone cheese"),
     EXTRACHEESE("Extra cheese"),
     MOZZARELLA("Mozzarella cheese"),
-    PARMASAN("Parmesan cheese")
+    PARMESAN("Parmesan cheese")
 
     ;
 
