@@ -46,6 +46,15 @@ We will be evaluating
 5. When complete please check your code into your public git repo
 
 #### Test Cases
+Please, find in SQEDemoChallengeUI\src\test\resources\files\TCs and Defects.xlsx file
 
- 1.  
+#### Defects
+Please, find on the second tab of the same file
 
+#### Things For Improvement
+1. Show 'Toppings 1' and 'Toppings 2' drop-downs only pizza with 1 or 2 toppings is selected
+2. Rename drop-down lists from 'Pizza 1', 'Toppings 1', 'Toppings2' to smth. more representative, e.g. 'Pizza Type', 'First Topping', 'Second Topping'
+3. Make 'Quantity' field a drop-down list in order to limit the number of available options
+4. Re-text successful message "TOTAL: 6.75 Small 6 Slices - no toppings" to make it more clear, e.g. "TOTAL: $6.75 ORDER DETAILS: Small 6 Slices - no toppings QUANTITY: 1"
+5. Disable other page content until pop-up window is not closed
+6. Do not show confirmation pop-up when no pizza is selected
