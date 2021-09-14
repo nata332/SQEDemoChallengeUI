@@ -1,7 +1,8 @@
 package com.sample.test.demo.constants;
 
 
-import java.util.Locale;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public enum PizzaTypes {
     SMALL_NOTOPPINGS("Small 6 Slices - no toppings", 6.75),
@@ -12,8 +13,9 @@ public enum PizzaTypes {
 
     private String displayName;
     private double cost;
+    private static final List<PizzaTypes> VALUES = Collections.unmodifiableList(Arrays.asList(values()));
 
-    private PizzaTypes(String displayName, double cost) {
+    PizzaTypes(String displayName, double cost) {
         this.displayName = displayName;
         this.cost = cost;
     }
@@ -30,4 +32,11 @@ public enum PizzaTypes {
         return String.format(Locale.US, "%.2f", cost);
     }
 
+    public static PizzaTypes getRandomPizzaType() {
+        return VALUES.get(new Random().nextInt(VALUES.size()));
+    }
+
+    public static List<String> getAllValues() {
+        return VALUES.stream().map(v -> String.format("%s $%s", v.getDisplayName(), v.getFormattedCost())).collect(Collectors.toList());
+    }
 }
