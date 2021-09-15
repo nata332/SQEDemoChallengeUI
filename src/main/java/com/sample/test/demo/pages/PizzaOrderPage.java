@@ -2,14 +2,15 @@ package com.sample.test.demo.pages;
 
 import com.sample.test.demo.constants.PizzaToppings;
 import com.sample.test.demo.constants.PizzaTypes;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
@@ -17,7 +18,7 @@ import java.util.List;
  * @author Natallia_Rakitskaya@epam.com
  */
 public class PizzaOrderPage extends BasePage {
-    private static final Logger LOGGER = LoggerFactory
+    private static final Logger LOGGER = LogManager
             .getLogger(PizzaOrderPage.class);
 
     @FindBy(id = "pizza1Pizza")
@@ -55,6 +56,9 @@ public class PizzaOrderPage extends BasePage {
 
     @FindBy(xpath = "//div[@id='dialog']/p")
     private WebElement popupMessage;
+
+    @FindBy(css = "[title=Close]")
+    private WebElement closeButton;
 
     private By costFieldLocator = By.id("pizza1Cost");
 
@@ -115,6 +119,7 @@ public class PizzaOrderPage extends BasePage {
     public PizzaOrderPage specifyPizzasQuantity(int pizzasQuantity) {
         quantityInputField.clear();
         quantityInputField.sendKeys(String.valueOf(pizzasQuantity));
+        quantityInputField.sendKeys(Keys.TAB);
         return this;
     }
 
@@ -170,5 +175,13 @@ public class PizzaOrderPage extends BasePage {
 
     public String retrievePopupMessage() {
         return popupMessage.getText();
+    }
+
+    public boolean isPopupMessageDisplayed() {
+        return popupMessage.isDisplayed();
+    }
+
+    public void closePopupWindow() {
+        closeButton.click();
     }
 }

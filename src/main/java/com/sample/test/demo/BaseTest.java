@@ -7,6 +7,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
+import java.security.SecureRandom;
 import java.util.Locale;
 
 public class BaseTest {
@@ -25,7 +26,7 @@ public class BaseTest {
         navigateToSite();
     }
 
-    private void navigateToSite() {
+    protected void navigateToSite() {
         driver.get(url);
     }
 
@@ -53,5 +54,22 @@ public class BaseTest {
 
     }
 
+    public String generateRandomAlphaString(int length) {
+        final String CHARACTERS = "abcdefghijklmnopqrstuvwxyz";
+        return generateRandomString(CHARACTERS, length);
+    }
+
+    public String generateRandomNumericString(int length) {
+        final String NUMBERS = "0123456789";
+        return generateRandomString(NUMBERS, length);
+    }
+
+    public String generateRandomString(String allowedCharactersSequence, int length) {
+        SecureRandom randomizer = new SecureRandom();
+        StringBuilder stringBuilder = new StringBuilder(length);
+        for (int i = 0; i < length; i++)
+            stringBuilder.append(allowedCharactersSequence.charAt(randomizer.nextInt(allowedCharactersSequence.length())));
+        return stringBuilder.toString();
+    }
 
 }

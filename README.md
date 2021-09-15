@@ -58,3 +58,5 @@ Please, find on the second tab of the same file
 4. Re-text successful message "TOTAL: 6.75 Small 6 Slices - no toppings" to make it more clear, e.g. "TOTAL: $6.75 ORDER DETAILS: Small 6 Slices - no toppings QUANTITY: 1"
 5. Disable other page content until pop-up window is not closed
 6. Do not show confirmation pop-up when no pizza is selected
+7. Add validation to Name and Phone fields
+8. Extend maximum length of Email field to standard 320 characters (64 characters in local part, '@' and 255 in domain part)

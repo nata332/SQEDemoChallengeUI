@@ -5,6 +5,8 @@ import com.sample.test.demo.constants.PizzaToppings;
 import com.sample.test.demo.constants.PizzaTypes;
 import com.sample.test.demo.pages.PizzaOrderPage;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -18,10 +20,11 @@ import java.util.StringJoiner;
  * @author Natallia_Rakitskaya@epam.com
  */
 public class OrderPizzaTest extends BaseTest {
+    private static String NAME;
+    private static String EMAIL;
+    private static String PHONE;
+
     private static final int MAX_PIZZAS_QTY = 99999;
-    private static final String NAME = "Natallia";
-    private static final String EMAIL = "abc@gmail.com";
-    private static final String PHONE = "+12345678900";
 
     private static final String DEFAULT_PIZZA_TYPE_OPTION = "Choose Pizza";
     private static final String DEFAULT_TOPPING1_OPTION = "Choose a Toppings 1";
@@ -31,38 +34,48 @@ public class OrderPizzaTest extends BaseTest {
     private static final String MISSING_NAME_MSG = "Missing name";
     private static final String MISSING_PHONE_MSG = "Missing phone number";
 
+    @BeforeMethod
+    private void setUp() {
+        NAME = generateRandomAlphaString(100);
+        EMAIL = String.format("%s@%s.com", generateRandomAlphaString(19), generateRandomAlphaString(76));
+        PHONE = String.format("+%s", generateRandomNumericString(11));
+    }
+
     @Test(description = "Verify default option of Pizza Type drop-down")
-    public void PizzaTypesDefaultOption() {
+    public void pizzaTypesDefaultOptionTest() {
+        navigateToSite();
         String selectedOption = new PizzaOrderPage(driver).getPizzaTypeSelectedOption();
         Assert.assertEquals(selectedOption, DEFAULT_PIZZA_TYPE_OPTION, "Invalid default value!");
     }
 
     @Test(description = "Verify options of Pizza Type drop-down")
-    public void PizzaTypesTest() {
+    public void pizzaTypesTest() {
         PizzaOrderPage page = new PizzaOrderPage(driver);
         verifyDropdownOptions(DEFAULT_PIZZA_TYPE_OPTION, page.getAllPizzaOptions(), PizzaTypes.getAllValues());
     }
 
     @Test(description = "Verify default option of the first Topping drop-down")
-    public void FirstToppingDefaultOption() {
+    public void firstToppingDefaultOptionTest() {
+        navigateToSite();
         String selectedOption = new PizzaOrderPage(driver).getTopping1SelectedOption();
         Assert.assertEquals(selectedOption, DEFAULT_TOPPING1_OPTION, "Invalid default value!");
     }
 
     @Test(description = "Verify options of the first Topping drop-down")
-    public void FirstToppingOptionsTest() {
+    public void firstToppingOptionsTest() {
         PizzaOrderPage page = new PizzaOrderPage(driver);
         verifyDropdownOptions(DEFAULT_TOPPING1_OPTION, page.getAllTopping1Options(), PizzaToppings.getAllValues());
     }
 
     @Test(description = "Verify default option of the second Topping drop-down")
-    public void SecondToppingDefaultOption() {
+    public void secondToppingDefaultOptionTest() {
+        navigateToSite();
         String selectedOption = new PizzaOrderPage(driver).getTopping2SelectedOption();
         Assert.assertEquals(selectedOption, DEFAULT_TOPPING2_OPTION, "Invalid default value!");
     }
 
     @Test(description = "Verify options of the second Topping drop-down")
-    public void SecondToppingOptionsTest() {
+    public void secondToppingOptionsTest() {
         PizzaOrderPage page = new PizzaOrderPage(driver);
         verifyDropdownOptions(DEFAULT_TOPPING2_OPTION, page.getAllTopping2Options(), PizzaToppings.getAllValues());
     }
@@ -74,7 +87,7 @@ public class OrderPizzaTest extends BaseTest {
     }
 
     @Test(description = "Verify Cost is calculated properly")
-    public void verifyCostCalculation() {
+    public void costCalculationTest() {
         PizzaTypes pizzaType = PizzaTypes.getRandomPizzaType();
         int pizzasQuantity = generateRandomPizzasQuantity();
         PizzaOrderPage page = new PizzaOrderPage(driver)
@@ -98,8 +111,6 @@ public class OrderPizzaTest extends BaseTest {
         Assert.assertEquals(actualMessage, expectedMessage, "Incorrect message shown!");
     }
 
-    //@Test(description = "Verify Quantity outbound values + default")
-
     @DataProvider(name = "mandatoryFieldsChecker")
     public static Object[][] mandatoryFieldsValues() {
         return new Object[][]{
@@ -110,7 +121,7 @@ public class OrderPizzaTest extends BaseTest {
                 {"   ", PHONE, MISSING_NAME_MSG}};
     }
 
-    //Defect found
+    //Defect #4
     @Test(description = "Verify mandatory fields", dataProvider = "mandatoryFieldsChecker")
     public void mandatoryFieldsTest(String name, String phone, String expectedMessage) {
         PizzaOrderPage page = new PizzaOrderPage(driver)
@@ -119,10 +130,6 @@ public class OrderPizzaTest extends BaseTest {
                 .confirmOrder();
         Assert.assertEquals(page.retrievePopupMessage(), expectedMessage, "Incorrect message shown!");
     }
-
-    //long names and phones
-    //payment option
-    //reset button
 
     /**
      * @return random number between 1 and MAX_PIZZAS_QTY
@@ -135,5 +142,13 @@ public class OrderPizzaTest extends BaseTest {
         DecimalFormatSymbols formatSymbols = new DecimalFormatSymbols(locale);
         formatSymbols.setDecimalSeparator('.');
         return new DecimalFormat("0.##", formatSymbols).format(quantity * cost);
+    }
+
+    @AfterMethod(alwaysRun = true)
+    public void cleanUp() {
+        PizzaOrderPage page = new PizzaOrderPage(driver);
+        if (page.isPopupMessageDisplayed()) {
+            page.closePopupWindow();
+        }
     }
 }
