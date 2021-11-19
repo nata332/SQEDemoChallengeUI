@@ -20,9 +20,9 @@ import java.util.StringJoiner;
  * @author Natallia_Rakitskaya@epam.com
  */
 public class OrderPizzaTest extends BaseTest {
-    private static String NAME;
-    private static String EMAIL;
-    private static String PHONE;
+    private static String name;
+    private static String email;
+    private static String phone;
 
     private static final int MAX_PIZZAS_QTY = 99999;
 
@@ -36,9 +36,9 @@ public class OrderPizzaTest extends BaseTest {
 
     @BeforeMethod
     private void setUp() {
-        NAME = generateRandomAlphaString(100);
-        EMAIL = String.format("%s@%s.com", generateRandomAlphaString(19), generateRandomAlphaString(76));
-        PHONE = String.format("+%s", generateRandomNumericString(11));
+        name = generateRandomAlphaString(100);
+        email = String.format("%s@%s.com", generateRandomAlphaString(19), generateRandomAlphaString(76));
+        phone = String.format("+%s", generateRandomNumericString(11));
     }
 
     @Test(description = "Verify default option of Pizza Type drop-down")
@@ -102,7 +102,7 @@ public class OrderPizzaTest extends BaseTest {
         int pizzasQuantity = generateRandomPizzasQuantity();
         PizzaOrderPage page = new PizzaOrderPage(driver)
                 .specifyOrderDetails(pizzaType, PizzaToppings.getRandomTopping(), PizzaToppings.getRandomTopping(), pizzasQuantity)
-                .specifyContactInformation(NAME, EMAIL, PHONE)
+                .specifyContactInformation(name, email, phone)
                 .chooseCardPaymentOption()
                 .confirmOrder();
         String orderTotal = calculateCost(pizzasQuantity, pizzaType.getCost());
@@ -115,10 +115,10 @@ public class OrderPizzaTest extends BaseTest {
     public static Object[][] mandatoryFieldsValues() {
         return new Object[][]{
                 {"", "", String.format("%s\n%s", MISSING_NAME_MSG, MISSING_PHONE_MSG)},
-                {NAME, "", MISSING_PHONE_MSG},
-                {"", PHONE, MISSING_NAME_MSG},
-                {NAME, "    ", MISSING_PHONE_MSG},
-                {"   ", PHONE, MISSING_NAME_MSG}};
+                {name, "", MISSING_PHONE_MSG},
+                {"", phone, MISSING_NAME_MSG},
+                {name, "    ", MISSING_PHONE_MSG},
+                {"   ", phone, MISSING_NAME_MSG}};
     }
 
     //Defect #4

@@ -4,7 +4,6 @@ import com.sample.test.demo.constants.PizzaToppings;
 import com.sample.test.demo.constants.PizzaTypes;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -45,14 +44,8 @@ public class PizzaOrderPage extends BasePage {
     @FindBy(id = "ccpayment")
     private WebElement cardPaymentOptionButton;
 
-    @FindBy(id = "cashpayment")
-    private WebElement cashPaymentOptionButton;
-
     @FindBy(id = "placeOrder")
     private WebElement placeOrderButton;
-
-    @FindBy(id = "reset")
-    private WebElement resetButton;
 
     @FindBy(xpath = "//div[@id='dialog']/p")
     private WebElement popupMessage;
@@ -60,7 +53,8 @@ public class PizzaOrderPage extends BasePage {
     @FindBy(css = "[title=Close]")
     private WebElement closeButton;
 
-    private By costFieldLocator = By.id("pizza1Cost");
+    @FindBy(id = "pizza1Cost")
+    private WebElement costField;
 
     public PizzaOrderPage(WebDriver driver) {
         super(driver);
@@ -124,7 +118,6 @@ public class PizzaOrderPage extends BasePage {
     }
 
     public String getCostValue() {
-        WebElement costField = driver.findElement(costFieldLocator);
         return costField.getAttribute("value");
     }
 
@@ -158,18 +151,8 @@ public class PizzaOrderPage extends BasePage {
         return this;
     }
 
-    public PizzaOrderPage chooseCashPaymentOption() {
-        cashPaymentOptionButton.click();
-        return this;
-    }
-
     public PizzaOrderPage confirmOrder() {
         placeOrderButton.click();
-        return this;
-    }
-
-    public PizzaOrderPage resetOrderDetails() {
-        resetButton.click();
         return this;
     }
 

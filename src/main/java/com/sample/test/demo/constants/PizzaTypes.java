@@ -1,7 +1,11 @@
 package com.sample.test.demo.constants;
 
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 public enum PizzaTypes {
